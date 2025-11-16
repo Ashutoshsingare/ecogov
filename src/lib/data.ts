@@ -14,6 +14,7 @@ export const mainNav: NavItem[] = [
   { title: "Dashboard", href: "/dashboard" },
   { title: "Report Waste", href: "/report-waste" },
   { title: "e-Shop", href: "/shop" },
+  { title: "Rewards", href: "/training#rewards" },
   { title: "Facilities", href: "/facilities" },
 ];
 
