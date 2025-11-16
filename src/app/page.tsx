@@ -16,7 +16,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="container mx-auto px-4 py-16 sm:py-24">
+        <section id="home" className="container mx-auto px-4 py-16 sm:py-24">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <AnimatedWrapper>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight">
@@ -69,7 +69,7 @@ export default function Home() {
         </section>
 
         {/* Features Section */}
-        <section className="container mx-auto px-4 py-16 sm:py-24">
+        <section id="features" className="container mx-auto px-4 py-16 sm:py-24">
           <AnimatedWrapper className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold">A Platform for Change</h2>
             <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
@@ -94,7 +94,7 @@ export default function Home() {
         </section>
 
         {/* Testimonials Section */}
-        <section className="bg-card">
+        <section id="community" className="bg-card">
           <div className="container mx-auto px-4 py-16 sm:py-24">
             <AnimatedWrapper className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold">Voices of Our Community</h2>
@@ -138,7 +138,7 @@ export default function Home() {
         </section>
 
         {/* CTA Section */}
-        <section className="container mx-auto px-4 py-24 text-center">
+        <section id="join" className="container mx-auto px-4 py-24 text-center">
           <AnimatedWrapper>
             <h2 className="text-3xl md:text-4xl font-bold">Ready to Make an Impact?</h2>
             <p className="mt-4 max-w-xl mx-auto text-muted-foreground">

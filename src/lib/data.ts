@@ -2,6 +2,13 @@ import type { NavItem, Stat, Testimonial, Feature, TrainingModule, QuizQuestion,
 import { Truck, Users, Recycle, BarChart, PieChart, Map, Award, ShoppingCart, User, LogIn, LocateFixed, GitBranchPlus, Trash2, Sprout, Lightbulb, BadgeCheck, Gift, Star } from 'lucide-react';
 import { PlaceHolderImages } from './placeholder-images';
 
+export const homeNav: NavItem[] = [
+  { title: "Home", href: "/#home" },
+  { title: "Features", href: "/#features" },
+  { title: "Community", href: "/#community" },
+  { title: "Join", href: "/#join" },
+];
+
 export const mainNav: NavItem[] = [
   { title: "Training", href: "/training" },
   { title: "Dashboard", href: "/dashboard" },
