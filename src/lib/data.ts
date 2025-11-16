@@ -1,5 +1,6 @@
 import type { NavItem, Stat, Testimonial, Feature, TrainingModule, QuizQuestion, Product, Violation, Vehicle, Facility, UserBadge } from '@/lib/types';
 import { Truck, Users, Recycle, BarChart, PieChart, Map, Award, ShoppingCart, User, LogIn, LocateFixed, GitBranchPlus, Trash2, Sprout, Lightbulb, BadgeCheck } from 'lucide-react';
+import { PlaceHolderImages } from './placeholder-images';
 
 export const mainNav: NavItem[] = [
   { title: "Training", href: "/training" },
@@ -46,26 +47,26 @@ export const testimonials: Testimonial[] = [
     name: 'Anjali Sharma',
     role: 'Green Champion',
     quote: 'The training modules are fantastic! I learned so much about composting and now manage my own kitchen waste effectively.',
-    avatarUrl: 'https://picsum.photos/seed/avatar1/100/100'
+    avatarUrl: PlaceHolderImages.find(p => p.id === 'testimonial-avatar-1')?.imageUrl || 'https://picsum.photos/seed/avatar1/100/100'
   },
   {
     name: 'Rajesh Kumar',
     role: 'Community Volunteer',
     quote: 'Reporting waste has never been easier. The app is intuitive and the response from authorities is prompt. A real game-changer for our neighborhood.',
-    avatarUrl: 'https://picsum.photos/seed/avatar2/100/100'
+    avatarUrl: PlaceHolderImages.find(p => p.id === 'testimonial-avatar-2')?.imageUrl || 'https://picsum.photos/seed/avatar2/100/100'
   },
   {
     name: 'Priya Singh',
     role: 'Student',
     quote: 'I love tracking the collection trucks. It helps us know exactly when to put our bins out. Super convenient!',
-    avatarUrl: 'https://picsum.photos/seed/avatar3/100/100'
+    avatarUrl: PlaceHolderImages.find(p => p.id === 'testimonial-avatar-3')?.imageUrl || 'https://picsum.photos/seed/avatar3/100/100'
   }
 ];
 
 export const trainingModules: TrainingModule[] = [
-  { id: '1', title: 'Waste Segregation 101', description: 'Master the art of separating wet, dry, and hazardous waste.', duration: '45 mins', imageUrl: 'https://picsum.photos/seed/segregation/400/300', imageHint: 'recycling bins', isLocked: false },
-  { id: '2', title: 'Home Composting', description: 'Turn your kitchen scraps into valuable compost for your plants.', duration: '60 mins', imageUrl: 'https://picsum.photos/seed/composting/400/300', imageHint: 'garden compost', isLocked: false },
-  { id: '3', title: 'E-Waste Management', description: 'Learn how to safely dispose of electronic waste.', duration: '30 mins', imageUrl: 'https://picsum.photos/seed/ewaste/400/300', imageHint: 'electronic circuit', isLocked: true },
+  { id: '1', title: 'Waste Segregation 101', description: 'Master the art of separating wet, dry, and hazardous waste.', duration: '45 mins', imageUrl: PlaceHolderImages.find(p => p.id === 'training-segregation')?.imageUrl || 'https://picsum.photos/seed/segregation/400/300', imageHint: 'recycling bins', isLocked: false },
+  { id: '2', title: 'Home Composting', description: 'Turn your kitchen scraps into valuable compost for your plants.', duration: '60 mins', imageUrl: PlaceHolderImages.find(p => p.id === 'training-composting')?.imageUrl || 'https://picsum.photos/seed/composting/400/300', imageHint: 'garden compost', isLocked: false },
+  { id: '3', title: 'E-Waste Management', description: 'Learn how to safely dispose of electronic waste.', duration: '30 mins', imageUrl: PlaceHolderImages.find(p => p.id === 'training-ewaste')?.imageUrl || 'https://picsum.photos/seed/ewaste/400/300', imageHint: 'electronic circuit', isLocked: true },
   { id: '4', title: 'Plastic-Free Living', description: 'Tips and tricks to reduce plastic consumption in daily life.', duration: '45 mins', imageUrl: 'https://picsum.photos/seed/plasticfree/400/300', imageHint: 'reusable bags', isLocked: true },
 ];
 
@@ -88,12 +89,12 @@ export const quizQuestions: QuizQuestion[] = [
 ];
 
 export const products: Product[] = [
-  { id: 'p1', name: 'Segregation Dustbins (Set of 3)', category: 'Bins', price: 1299, imageUrl: 'https://picsum.photos/seed/dustbin/400/400', imageHint: 'recycling bins' },
-  { id: 'p2', name: 'Home Compost Kit', category: 'Composting', price: 2499, imageUrl: 'https://picsum.photos/seed/compostkit/400/400', imageHint: 'compost bin' },
-  { id: 'p3', name: 'Reusable Safety Gloves', category: 'Accessories', price: 199, imageUrl: 'https://picsum.photos/seed/gloves/400/400', imageHint: 'safety gloves' },
-  { id: 'p4', name: 'Biodegradable Garbage Bags (100 pcs)', category: 'Bags', price: 349, imageUrl: 'https://picsum.photos/seed/bags/400/400', imageHint: 'green bags' },
-  { id: 'p5', name: 'Compost Accelerator Powder', category: 'Composting', price: 499, imageUrl: 'https://picsum.photos/seed/powder/400/400', imageHint: 'gardening powder' },
-  { id: 'p6', name: 'Car Odor-Free Bin', category: 'Bins', price: 799, imageUrl: 'https://picsum.photos/seed/carbin/400/400', imageHint: 'small bin' },
+  { id: 'p1', name: 'Segregation Dustbins (Set of 3)', category: 'Bins', price: 1299, imageUrl: PlaceHolderImages.find(p => p.id === 'product-dustbin')?.imageUrl || 'https://picsum.photos/seed/dustbin/400/400', imageHint: 'recycling bins' },
+  { id: 'p2', name: 'Home Compost Kit', category: 'Composting', price: 2499, imageUrl: PlaceHolderImages.find(p => p.id === 'product-compost-kit')?.imageUrl || 'https://picsum.photos/seed/compostkit/400/400', imageHint: 'compost bin' },
+  { id: 'p3', name: 'Reusable Safety Gloves', category: 'Accessories', price: 199, imageUrl: PlaceHolderImages.find(p => p.id === 'product-gloves')?.imageUrl || 'https://picsum.photos/seed/gloves/400/400', imageHint: 'safety gloves' },
+  { id: 'p4', name: 'Biodegradable Garbage Bags (100 pcs)', category: 'Bags', price: 349, imageUrl: PlaceHolderImages.find(p => p.id === 'product-garbage-bags')?.imageUrl || 'https://picsum.photos/seed/bags/400/400', imageHint: 'green bags' },
+  { id: 'p5', name: 'Compost Accelerator Powder', category: 'Composting', price: 499, imageUrl: PlaceHolderImages.find(p => p.id === 'product-compost-powder')?.imageUrl || 'https://picsum.photos/seed/powder/400/400', imageHint: 'gardening powder' },
+  { id: 'p6', name: 'Car Odor-Free Bin', category: 'Bins', price: 799, imageUrl: PlaceHolderImages.find(p => p.id === 'product-car-bin')?.imageUrl || 'https://picsum.photos/seed/carbin/400/400', imageHint: 'small bin' },
 ];
 
 export const dashboardStats: Stat[] = [

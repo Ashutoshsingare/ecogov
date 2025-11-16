@@ -43,6 +43,24 @@
       "imageHint": "safety gloves"
     },
     {
+      "id": "product-garbage-bags",
+      "description": "A roll of biodegradable garbage bags.",
+      "imageUrl": "https://images.unsplash.com/photo-1593814681463-c71b3079b29f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxncmVlbiUyMGJhZ3N8ZW58MHx8fHwxNzYzMzk2NTQyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "green bags"
+    },
+    {
+      "id": "product-compost-powder",
+      "description": "A bag of compost accelerator powder.",
+      "imageUrl": "https://images.unsplash.com/photo-1628189679818-6415a770381e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnYXJkZW5pbmclMjBwb3dkZXJ8ZW58MHx8fHwxNzYzMzk2NTg3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gardening powder"
+    },
+    {
+      "id": "product-car-bin",
+      "description": "A small bin for use in a car.",
+      "imageUrl": "https://images.unsplash.com/photo-1568243794332-969424683d73?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzbWFsbCUyMGJpbnxlbnwwfHx8fDE3NjMzOTY2MTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "small bin"
+    },
+    {
       "id": "testimonial-avatar-1",
       "description": "Avatar for a testimonial.",
       "imageUrl": "https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb24lMjBzbWlsaW5nfGVufDB8fHx8MTc2MzIxOTY1OXww&ixlib=rb-4.1.0&q=80&w=1080",
