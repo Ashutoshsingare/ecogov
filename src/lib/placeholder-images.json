@@ -1,3 +1,76 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-illustration",
+      "description": "A vibrant illustration showing a clean city with green initiatives.",
+      "imageUrl": "https://images.unsplash.com/photo-1518833500287-51ca0f2b1a0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjaXR5JTIwZ3JlZW58ZW58MHx8fHwxNzYzMjkwODMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "city green"
+    },
+    {
+      "id": "training-segregation",
+      "description": "Image for waste segregation training module.",
+      "imageUrl": "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyZWN5Y2xpbmclMjBiaW5zfGVufDB8fHx8MTc2MzI5MDAzN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "recycling bins"
+    },
+    {
+      "id": "training-composting",
+      "description": "Image for composting training module.",
+      "imageUrl": "https://images.unsplash.com/photo-1599907918964-36e6a527b42a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnYXJkZW4lMjBjb21wb3N0fGVufDB8fHx8MTc2MzI5MDgzMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "garden compost"
+    },
+    {
+      "id": "training-ewaste",
+      "description": "Image for e-waste management training module.",
+      "imageUrl": "https://images.unsplash.com/photo-1617839625591-e5a789593135?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxlbGVjdHJvbmljJTIwY2lyY3VpdHxlbnwwfHx8fDE3NjMyOTA4MzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "electronic circuit"
+    },
+    {
+      "id": "product-dustbin",
+      "description": "A set of color-coded dustbins for waste segregation.",
+      "imageUrl": "https://images.unsplash.com/photo-1722482445685-91a6b17d5d02?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cmVjeWNsaW5nJTIwYmluc3xlbnwwfHx8fDE3NjMyOTAwMzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "recycling bins"
+    },
+    {
+      "id": "product-compost-kit",
+      "description": "A home composting kit with a bin and accessories.",
+      "imageUrl": "https://images.unsplash.com/photo-1621496654772-c66c48290259?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb21wb3N0JTIwYmlufGVufDB8fHx8MTc2MzI5MDgzMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "compost bin"
+    },
+    {
+      "id": "product-gloves",
+      "description": "Heavy-duty reusable gloves for handling waste.",
+      "imageUrl": "https://images.unsplash.com/photo-1628246963292-f238fa310fcf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzYWZldHklMjBnbG92ZXN8ZW58MHx8fHwxNzYzMjA0Mjg4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "safety gloves"
+    },
+    {
+      "id": "testimonial-avatar-1",
+      "description": "Avatar for a testimonial.",
+      "imageUrl": "https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb24lMjBzbWlsaW5nfGVufDB8fHx8MTc2MzIxOTY1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person smiling"
+    },
+    {
+      "id": "testimonial-avatar-2",
+      "description": "Avatar for a testimonial.",
+      "imageUrl": "https://images.unsplash.com/photo-1546961329-78bef0414d7c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHx3b21hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTc2MzIxODk3Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "woman portrait"
+    },
+    {
+      "id": "testimonial-avatar-3",
+      "description": "Avatar for a testimonial.",
+      "imageUrl": "https://images.unsplash.com/photo-1594672830234-ba4cfe1202dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYzMjg1MTk2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "man portrait"
+    },
+    {
+      "id": "profile-avatar",
+      "description": "User's profile avatar.",
+      "imageUrl": "https://images.unsplash.com/photo-1590305173565-f789a8dd6be7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjBnbGFzc2VzfGVufDB8fHx8MTc2MzIwMjgyOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person glasses"
+    },
+    {
+      "id": "report-waste-placeholder",
+      "description": "Placeholder for waste reporting image upload.",
+      "imageUrl": "https://images.unsplash.com/photo-1704643671561-c7562fe150df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8dXBsb2FkJTIwaWNvbnxlbnwwfHx8fDE3NjMyNjI3NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "upload icon"
+    }
+  ]
 }
