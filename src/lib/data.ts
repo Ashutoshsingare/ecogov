@@ -1,5 +1,5 @@
-import type { NavItem, Stat, Testimonial, Feature, TrainingModule, QuizQuestion, Product, Violation, Vehicle, Facility, UserBadge } from '@/lib/types';
-import { Truck, Users, Recycle, BarChart, PieChart, Map, Award, ShoppingCart, User, LogIn, LocateFixed, GitBranchPlus, Trash2, Sprout, Lightbulb, BadgeCheck } from 'lucide-react';
+import type { NavItem, Stat, Testimonial, Feature, TrainingModule, QuizQuestion, Product, Violation, Vehicle, Facility, UserBadge, Reward } from '@/lib/types';
+import { Truck, Users, Recycle, BarChart, PieChart, Map, Award, ShoppingCart, User, LogIn, LocateFixed, GitBranchPlus, Trash2, Sprout, Lightbulb, BadgeCheck, Gift, Star } from 'lucide-react';
 import { PlaceHolderImages } from './placeholder-images';
 
 export const mainNav: NavItem[] = [
@@ -90,12 +90,12 @@ export const quizQuestions: QuizQuestion[] = [
 ];
 
 export const products: Product[] = [
-  { id: 'p1', name: 'Segregation Dustbins (Set of 3)', category: 'Bins', price: 1299, imageUrl: PlaceHolderImages.find(p => p.id === 'product-dustbin')?.imageUrl || 'https://picsum.photos/seed/dustbin/400/400', imageHint: 'recycling bins' },
+  { id: 'p1', name: 'Segregation Dustbins (Set of 3)', category: 'Bins', price: 1299, imageUrl: PlaceHolderImages.find(p => p.id === 'product-dustbin-set')?.imageUrl || 'https://picsum.photos/seed/dustbin/400/400', imageHint: 'three recycling bins' },
   { id: 'p2', name: 'Home Compost Kit', category: 'Composting', price: 2499, imageUrl: PlaceHolderImages.find(p => p.id === 'product-compost-kit')?.imageUrl || 'https://picsum.photos/seed/compostkit/400/400', imageHint: 'compost bin' },
-  { id: 'p3', name: 'Reusable Safety Gloves', category: 'Accessories', price: 199, imageUrl: PlaceHolderImages.find(p => p.id === 'product-gloves')?.imageUrl || 'https://picsum.photos/seed/gloves/400/400', imageHint: 'safety gloves' },
-  { id: 'p4', name: 'Biodegradable Garbage Bags (100 pcs)', category: 'Bags', price: 349, imageUrl: PlaceHolderImages.find(p => p.id === 'product-garbage-bags')?.imageUrl || 'https://picsum.photos/seed/bags/400/400', imageHint: 'green bags' },
-  { id: 'p5', name: 'Compost Accelerator Powder', category: 'Composting', price: 499, imageUrl: PlaceHolderImages.find(p => p.id === 'product-compost-powder')?.imageUrl || 'https://picsum.photos/seed/powder/400/400', imageHint: 'gardening powder' },
-  { id: 'p6', name: 'Car Odor-Free Bin', category: 'Bins', price: 799, imageUrl: PlaceHolderImages.find(p => p.id === 'product-car-bin')?.imageUrl || 'https://picsum.photos/seed/carbin/400/400', imageHint: 'small bin' },
+  { id: 'p3', name: 'Reusable Safety Gloves', category: 'Accessories', price: 199, imageUrl: PlaceHolderImages.find(p => p.id === 'product-gloves')?.imageUrl || 'https://picsum.photos/seed/gloves/400/400', imageHint: 'gardening gloves' },
+  { id: 'p4', name: 'Biodegradable Garbage Bags (100 pcs)', category: 'Bags', price: 349, imageUrl: PlaceHolderImages.find(p => p.id === 'product-garbage-bags')?.imageUrl || 'https://picsum.photos/seed/bags/400/400', imageHint: 'biodegradable bags' },
+  { id: 'p5', name: 'Compost Accelerator Powder', category: 'Composting', price: 499, imageUrl: PlaceHolderImages.find(p => p.id === 'product-compost-powder')?.imageUrl || 'https://picsum.photos/seed/powder/400/400', imageHint: 'compost powder' },
+  { id: 'p6', name: 'Car Odor-Free Bin', category: 'Bins', price: 799, imageUrl: PlaceHolderImages.find(p => p.id === 'product-car-bin')?.imageUrl || 'https://picsum.photos/seed/carbin/400/400', imageHint: 'car trash can' },
 ];
 
 export const dashboardStats: Stat[] = [
@@ -155,4 +155,28 @@ export const userBadges: UserBadge[] = [
   { id: 'b3', name: 'First Report', description: 'Filed your first waste report.', icon: GitBranchPlus, unlocked: true },
   { id: 'b4', name: 'E-Waste Expert', description: 'Completed the E-Waste Management module.', icon: Lightbulb, unlocked: false },
   { id: 'b5', name: 'Green Guru', description: 'Unlock all other badges to achieve this.', icon: BadgeCheck, unlocked: false },
+];
+
+export const rewards: Reward[] = [
+    {
+        icon: Gift,
+        title: "e-Shop Discount",
+        description: "Get 15% off your next purchase on the EcoGov e-Shop.",
+        points: 500,
+        unlocked: true,
+    },
+    {
+        icon: Star,
+        title: "Community Shoutout",
+        description: "Be featured on our social media channels for your contributions.",
+        points: 1000,
+        unlocked: false,
+    },
+     {
+        icon: Sprout,
+        title: "Tree Plantation",
+        description: "A tree will be planted in your name in a local park.",
+        points: 2500,
+        unlocked: false,
+    }
 ];

@@ -1,5 +1,5 @@
 import { BadgeCheck, Lock } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 type CertificationBadgeProps = {

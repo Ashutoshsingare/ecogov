@@ -83,3 +83,11 @@ export type UserBadge = {
   icon: LucideIcon;
   unlocked: boolean;
 };
+
+export type Reward = {
+    icon: LucideIcon;
+    title: string;
+    description: string;
+    points: number;
+    unlocked: boolean;
+};
