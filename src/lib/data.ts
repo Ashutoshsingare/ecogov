@@ -144,9 +144,8 @@ export const facilities: Facility[] = [
 export const sidebarNav: NavItem[] = [
   { title: "Dashboard", href: "/dashboard", icon: BarChart },
   { title: "My Reports", href: "/profile", icon: GitBranchPlus },
-  { title: "Live Map", href: "/dashboard", icon: Map },
+  { title: "Live Map", href: "/facilities", icon: Map },
   { title: "Training", href: "/training", icon: Sprout },
-  { title: "Profile", href: "/profile", icon: User },
 ];
 
 export const userBadges: UserBadge[] = [
