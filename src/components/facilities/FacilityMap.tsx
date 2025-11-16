@@ -1,19 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from "@vis.gl/react-google-maps";
+import { APIProvider, Map, AdvancedMarker, InfoWindow } from "@vis.gl/react-google-maps";
 import { facilities } from "@/lib/data";
 import { Recycle, Zap, Factory } from "lucide-react";
 import type { Facility } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 const getIcon = (type: Facility['type']) => {
   switch (type) {
     case "Recycling":
-      return <Recycle className="h-5 w-5 text-white" />;
+      return <Recycle className="h-6 w-6 text-white" />;
     case "WTE":
-      return <Zap className="h-5 w-5 text-white" />;
+      return <Zap className="h-6 w-6 text-white" />;
     case "Biomethanation":
-      return <Factory className="h-5 w-5 text-white" />;
+      return <Factory className="h-6 w-6 text-white" />;
     default:
       return null;
   }
@@ -22,13 +23,13 @@ const getIcon = (type: Facility['type']) => {
 const getPinColor = (type: Facility['type']) => {
     switch (type) {
       case "Recycling":
-        return "#2563eb"; // blue-600
+        return "bg-blue-600";
       case "WTE":
-        return "#f59e0b"; // amber-500
+        return "bg-amber-500";
       case "Biomethanation":
-        return "#16a34a"; // green-600
+        return "bg-green-600";
       default:
-        return "#6b7280"; // gray-500
+        return "bg-gray-500";
     }
 }
 
@@ -57,17 +58,20 @@ export default function FacilityMap() {
               position={{ lat: facility.lat, lng: facility.lng }}
               onClick={() => setSelectedFacility(facility)}
             >
-              <Pin background={getPinColor(facility.type)} borderColor={getPinColor(facility.type)} glyph={getIcon(facility.type)} />
+              <div className={cn("w-10 h-10 rounded-full flex items-center justify-center shadow-md", getPinColor(facility.type))}>
+                {getIcon(facility.type)}
+              </div>
             </AdvancedMarker>
           ))}
           {selectedFacility && (
             <InfoWindow
               position={{ lat: selectedFacility.lat, lng: selectedFacility.lng }}
               onCloseClick={() => setSelectedFacility(null)}
+              pixelOffset={[0, -50]}
             >
-              <div>
-                <h3 className="font-bold">{selectedFacility.name}</h3>
-                <p className="text-sm">{selectedFacility.type} Plant</p>
+              <div className="p-2">
+                <h3 className="font-bold text-lg">{selectedFacility.name}</h3>
+                <p className="text-sm text-muted-foreground">{selectedFacility.type} Plant</p>
               </div>
             </InfoWindow>
           )}
