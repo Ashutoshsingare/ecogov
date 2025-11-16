@@ -55,8 +55,8 @@ export default function WasteReportForm() {
     defaultValues: {
       description: "",
       location: "",
-      name: "John Doe",
-      phoneNumber: "+91 98765 43210",
+      name: "",
+      phoneNumber: "",
       issueType: "",
       photo: new File([], ""),
     }
@@ -242,7 +242,7 @@ export default function WasteReportForm() {
                         <FormItem>
                           <Label htmlFor="name" className="font-medium">Your Name *</Label>
                           <FormControl>
-                            <Input id="name" {...field} placeholder="John Doe" />
+                            <Input id="name" {...field} placeholder="e.g. John Doe" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -255,7 +255,7 @@ export default function WasteReportForm() {
                         <FormItem>
                           <Label htmlFor="phoneNumber" className="font-medium">Phone Number *</Label>
                           <FormControl>
-                            <Input id="phoneNumber" {...field} placeholder="+91 98765 43210" />
+                            <Input id="phoneNumber" {...field} placeholder="e.g. +91 98765 43210" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
