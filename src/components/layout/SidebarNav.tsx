@@ -16,16 +16,17 @@ export function SidebarNav() {
     <SidebarMenu>
       {sidebarNav.map((item) => (
         <SidebarMenuItem key={item.href}>
-          <Link href={item.href} legacyBehavior passHref>
-            <SidebarMenuButton
-              isActive={pathname === item.href}
-              tooltip={item.title}
-              aria-label={item.title}
-            >
+          <SidebarMenuButton
+            asChild
+            isActive={pathname === item.href}
+            tooltip={item.title}
+            aria-label={item.title}
+          >
+            <Link href={item.href}>
               {item.icon && <item.icon />}
               <span>{item.title}</span>
-            </SidebarMenuButton>
-          </Link>
+            </Link>
+          </SidebarMenuButton>
         </SidebarMenuItem>
       ))}
     </SidebarMenu>
