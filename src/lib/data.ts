@@ -10,10 +10,10 @@ export const homeNav: NavItem[] = [
 ];
 
 export const mainNav: NavItem[] = [
-  { title: "Training", href: "/training" },
   { title: "Dashboard", href: "/dashboard" },
-  { title: "Report Waste", href: "/report-waste" },
+  { title: "Training", href: "/training" },
   { title: "Recycle", href: "/recycle" },
+  { title: "Report Waste", href: "/report-waste" },
   { title: "e-Shop", href: "/shop" },
   { title: "Rewards", href: "/rewards" },
   { title: "Facilities", href: "/facilities" },
