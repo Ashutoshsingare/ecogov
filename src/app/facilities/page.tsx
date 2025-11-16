@@ -1,6 +1,5 @@
 import FacilityMap from "@/components/facilities/FacilityMap";
 import { AnimatedWrapper } from "@/components/shared/AnimatedWrapper";
-import { Card, CardContent } from "@/components/ui/card";
 
 export default function FacilitiesPage() {
   return (
@@ -14,11 +13,7 @@ export default function FacilitiesPage() {
         </div>
       </AnimatedWrapper>
       <AnimatedWrapper delay={0.2}>
-        <Card>
-            <CardContent className="p-2">
-                <FacilityMap />
-            </CardContent>
-        </Card>
+        <FacilityMap />
       </AnimatedWrapper>
     </div>
   );
