@@ -1,5 +1,5 @@
 import type { NavItem, Stat, Testimonial, Feature, TrainingModule, QuizQuestion, Product, Violation, Vehicle, Facility, UserBadge, Reward } from '@/lib/types';
-import { Truck, Users, Recycle, BarChart, PieChart, Map, Award, ShoppingCart, User, LogIn, LocateFixed, GitBranchPlus, Trash2, Sprout, Lightbulb, BadgeCheck, Gift, Star } from 'lucide-react';
+import { Truck, Users, Recycle, BarChart, PieChart, Map, Award, ShoppingCart, User, LogIn, LocateFixed, GitBranchPlus, Trash2, Sprout, Lightbulb, BadgeCheck, Gift, Star, DollarSign } from 'lucide-react';
 import { PlaceHolderImages } from './placeholder-images';
 
 export const homeNav: NavItem[] = [
@@ -169,21 +169,21 @@ export const rewards: Reward[] = [
     {
         icon: Gift,
         title: "e-Shop Discount",
-        description: "Get 15% off your next purchase on the EcoGov e-Shop.",
+        description: "Get 15% off your next purchase. Earn points by filing reports.",
         points: 500,
         unlocked: true,
     },
     {
-        icon: Star,
-        title: "Community Shoutout",
-        description: "Be featured on our social media channels for your contributions.",
+        icon: DollarSign,
+        title: "Redeem for Cash",
+        description: "Convert your points into real cash. 100 points = ₹10.",
         points: 1000,
         unlocked: false,
     },
      {
         icon: Sprout,
         title: "Tree Plantation",
-        description: "A tree will be planted in your name in a local park.",
+        description: "A tree will be planted in your name for your contribution.",
         points: 2500,
         unlocked: false,
     }
