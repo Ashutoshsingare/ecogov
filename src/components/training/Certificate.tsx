@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Download, Award, Lock } from 'lucide-react';
+import { Download, Award, Lock, Loader2 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import Logo from '@/components/shared/Logo';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 interface CertificateProps {
   userName: string;
@@ -16,14 +18,36 @@ interface CertificateProps {
 
 const Certificate: React.FC<CertificateProps> = ({ userName, courseName, completionDate, isUnlocked }) => {
   const certificateRef = useRef<HTMLDivElement>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const handleDownload = async () => {
     const element = certificateRef.current;
     if (!element) return;
-    
-    // This is a placeholder for a proper image/pdf generation library
-    // In a real app, you would use a library like html2canvas and jspdf
-    alert("Downloading certificate... (feature in development)");
+
+    setIsDownloading(true);
+
+    try {
+        const canvas = await html2canvas(element, { 
+            scale: 2, 
+            backgroundColor: null,
+            useCORS: true,
+        });
+        const imgData = canvas.toDataURL('image/png');
+        
+        const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'px',
+            format: [canvas.width, canvas.height]
+        });
+        
+        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+        pdf.save('EcoGov_Certificate.pdf');
+    } catch (error) {
+        console.error("Error generating PDF:", error);
+        alert("Sorry, there was an error downloading the certificate.");
+    } finally {
+        setIsDownloading(false);
+    }
   };
 
   if (!isUnlocked) {
@@ -71,9 +95,13 @@ const Certificate: React.FC<CertificateProps> = ({ userName, courseName, complet
             </CardContent>
         </Card>
         <div className="mt-6 text-center">
-            <Button onClick={handleDownload} disabled={!isUnlocked}>
-                <Download className="mr-2 h-4 w-4" />
-                Download Certificate
+            <Button onClick={handleDownload} disabled={!isUnlocked || isDownloading}>
+                {isDownloading ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                    <Download className="mr-2 h-4 w-4" />
+                )}
+                {isDownloading ? "Downloading..." : "Download Certificate"}
             </Button>
         </div>
     </div>
