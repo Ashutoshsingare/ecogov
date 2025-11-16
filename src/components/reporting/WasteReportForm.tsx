@@ -34,9 +34,11 @@ type FormData = z.infer<typeof formSchema>;
 
 const issueTypes = [
     "Illegal Dumping",
-    "Overflowing Bin",
-    "Mixed Waste",
-    "Construction Debris",
+    "Improper Segregation",
+    "Uncovered Waste",
+    "Overflowing Bins",
+    "Hazardous Waste",
+    "Burning Waste",
     "Other",
 ];
 
