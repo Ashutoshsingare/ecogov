@@ -1,35 +1,19 @@
-import { useState, useEffect } from 'react';
+"use client";
+
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import Logo from '@/components/shared/Logo';
-import { mainNav, homeNav } from '@/lib/data';
+import { mainNav } from '@/lib/data';
 import type { NavItem } from '@/lib/types';
 
 export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const isHomePage = pathname === '/';
-  const navItems = isHomePage ? homeNav : mainNav;
-
-  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    setIsOpen(false);
-    if (isHomePage && href.startsWith('/#')) {
-        e.preventDefault();
-        const sectionId = href.substring(2);
-        const section = document.getElementById(sectionId);
-        if (section) {
-            setTimeout(() => {
-                 window.scrollTo({
-                    top: section.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            }, 300); // Delay to allow sheet to close
-        }
-    }
-  }
+  const navItems = mainNav;
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -56,7 +40,7 @@ export default function MobileNav() {
                 key={item.href}
                 href={item.href}
                 className="text-lg font-medium text-foreground/80 hover:text-primary"
-                onClick={(e) => isHomePage ? handleScrollTo(e, item.href) : setIsOpen(false)}
+                onClick={() => setIsOpen(false)}
               >
                 {item.title}
               </Link>

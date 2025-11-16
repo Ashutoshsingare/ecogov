@@ -3,7 +3,7 @@ import { Truck, Users, Recycle, BarChart, PieChart, Map, Award, ShoppingCart, Us
 import { PlaceHolderImages } from './placeholder-images';
 
 export const homeNav: NavItem[] = [
-  { title: "Home", href: "/#home" },
+  { title: "Home", href: "/" },
   { title: "Features", href: "/#features" },
   { title: "Community", href: "/#community" },
   { title: "Join", href: "/#join" },
