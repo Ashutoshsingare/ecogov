@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Github, Chrome } from 'lucide-react';
+import { Chrome } from 'lucide-react';
 import { AnimatedWrapper } from "@/components/shared/AnimatedWrapper";
 import Logo from "@/components/shared/Logo";
 
@@ -44,8 +44,7 @@ export default function LoginPage() {
                     <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-4 w-full">
-                <Button variant="outline"><Github className="mr-2 h-4 w-4" /> Github</Button>
+            <div className="grid grid-cols-1 gap-4 w-full">
                 <Button variant="outline"><Chrome className="mr-2 h-4 w-4" /> Google</Button>
             </div>
             <p className="text-center text-sm text-muted-foreground">
