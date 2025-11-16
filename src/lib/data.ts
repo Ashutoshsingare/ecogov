@@ -5,6 +5,7 @@ import { PlaceHolderImages } from './placeholder-images';
 export const mainNav: NavItem[] = [
   { title: "Training", href: "/training" },
   { title: "Dashboard", href: "/dashboard" },
+  { title: "Report Waste", href: "/report-waste" },
   { title: "e-Shop", href: "/shop" },
   { title: "Facilities", href: "/facilities" },
 ];
