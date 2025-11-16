@@ -1,15 +1,10 @@
 import TrainingCard from "@/components/training/TrainingCard";
 import Quiz from "@/components/training/Quiz";
-import Certificate from "@/components/training/Certificate";
-import { trainingModules, rewards } from "@/lib/data";
+import { trainingModules } from "@/lib/data";
 import { AnimatedWrapper } from "@/components/shared/AnimatedWrapper";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import TrainingClient from "@/components/training/TrainingClient";
 
 export default function TrainingPage() {
-  const allModulesCompleted = !trainingModules.some(m => m.isLocked);
 
   return (
     <div className="container mx-auto px-4 py-16 sm:py-24">
