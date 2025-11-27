@@ -19,6 +19,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { Form } from "@/components/ui/form";
+import axios from "axios";
+import { useToast } from "@/hooks/use-toast";
 
 
 const formSchema = z.object({
@@ -47,9 +49,11 @@ export default function WasteReportForm() {
     message: "",
   });
   
+  const { toast } = useToast();
   const [preview, setPreview] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLocating, setIsLocating] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<FormData>({
@@ -82,8 +86,12 @@ export default function WasteReportForm() {
     if (formState.message) {
       setIsSubmitting(false);
       setIsDialogOpen(true);
+      if (formState.message.startsWith("Success")) {
+        form.reset();
+        setPreview(null);
+      }
     }
-  }, [formState]);
+  }, [formState, form]);
 
   const onFormSubmit = async (data: FormData) => {
     setIsSubmitting(true);
@@ -115,10 +123,33 @@ export default function WasteReportForm() {
   
   const handleGeolocation = () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        setValue("location", `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`);
-      });
+      setIsLocating(true);
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          try {
+            const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+            const address = response.data.display_name;
+            setValue("location", address, { shouldValidate: true });
+          } catch (error) {
+             toast({
+              variant: "destructive",
+              title: "Geolocation Failed",
+              description: "Could not get your address. Please enter it manually.",
+            });
+          } finally {
+            setIsLocating(false);
+          }
+        },
+        () => {
+          setIsLocating(false);
+          toast({
+            variant: "destructive",
+            title: "Geolocation Failed",
+            description: "Could not get your location. Please enter it manually.",
+          });
+        }
+      );
     }
   };
 
@@ -136,7 +167,7 @@ export default function WasteReportForm() {
                   render={({ field }) => (
                     <FormItem>
                       <Label htmlFor="issueType" className="font-medium">Type of Issue *</Label>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger id="issueType">
                             <SelectValue placeholder="Select type of issue" />
@@ -186,9 +217,9 @@ export default function WasteReportForm() {
                                 placeholder="e.g., New Delhi, India"
                             />
                         </FormControl>
-                        <Button type="button" variant="outline" onClick={handleGeolocation} className="shrink-0">
-                            <MapPin className="mr-2 h-4 w-4" />
-                            Detect
+                        <Button type="button" variant="outline" onClick={handleGeolocation} className="shrink-0" disabled={isLocating}>
+                            {isLocating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <MapPin className="mr-2 h-4 w-4" />}
+                            {isLocating ? "Locating..." : "Detect"}
                         </Button>
                       </div>
                       <FormMessage />

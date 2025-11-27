@@ -14,6 +14,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FormControl, FormField, FormItem, FormMessage, Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
+import axios from "axios";
 
 const formSchema = z.object({
   wasteType: z.string().min(1, "Please select a waste type."),
@@ -33,6 +34,7 @@ const wasteTypes = [
 export default function RecycleForm() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLocating, setIsLocating] = useState(false);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -63,12 +65,26 @@ export default function RecycleForm() {
   
   const handleGeolocation = () => {
     if (navigator.geolocation) {
+      setIsLocating(true);
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        async (position) => {
           const { latitude, longitude } = position.coords;
-          setValue("location", `Lat: ${latitude.toFixed(5)}, Lng: ${longitude.toFixed(5)}`, { shouldValidate: true });
+          try {
+            const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+            const address = response.data.display_name;
+            setValue("location", address, { shouldValidate: true });
+          } catch (error) {
+             toast({
+              variant: "destructive",
+              title: "Geolocation Failed",
+              description: "Could not get your address. Please enter it manually.",
+            });
+          } finally {
+            setIsLocating(false);
+          }
         },
         () => {
+          setIsLocating(false);
           toast({
             variant: "destructive",
             title: "Geolocation Failed",
@@ -124,9 +140,9 @@ export default function RecycleForm() {
                                 placeholder="Enter your full address or detect location"
                             />
                         </FormControl>
-                        <Button type="button" variant="outline" onClick={handleGeolocation} className="shrink-0">
-                            <MapPin className="mr-2 h-4 w-4" />
-                            Detect
+                        <Button type="button" variant="outline" onClick={handleGeolocation} className="shrink-0" disabled={isLocating}>
+                            {isLocating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <MapPin className="mr-2 h-4 w-4" />}
+                            {isLocating ? "Locating..." : "Detect"}
                         </Button>
                       </div>
                       <FormMessage />
