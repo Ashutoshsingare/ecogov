@@ -15,8 +15,8 @@ EcoGov is a web application designed to serve as a national platform for waste m
 
 ## Tech Stack
 
-*   **Frontend:** Next.js, React, TypeScript
-*   **Styling:** Tailwind CSS, ShadCN UI
+*   **Frontend:** Next.js, React, 
+*   **Styling:** Tailwind CSS, 
 *   **Generative AI:** Google Genkit
 *   **Maps:** Google Maps API
 
