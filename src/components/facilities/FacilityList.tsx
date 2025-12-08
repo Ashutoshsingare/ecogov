@@ -5,12 +5,18 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Recycle, Zap, Factory } from "lucide-react";
+import { Button } from "../ui/button";
 
 type FacilityListProps = {
   facilities: Facility[];
-  onFacilitySelect: (facility: Facility) => void;
+  onFacilitySelect: (facility: Facility | null) => void;
   selectedFacilityId?: string;
+  filter: Facility['type'] | 'All';
+  setFilter: (filter: Facility['type'] | 'All') => void;
 };
+
+const facilityTypes: (Facility['type'] | 'All')[] = ["All", "Recycling", "WTE", "Biomethanation"];
+
 
 const getIcon = (type: Facility['type']) => {
   const commonClass = "w-5 h-5 mr-3";
@@ -26,15 +32,28 @@ const getIcon = (type: Facility['type']) => {
   }
 };
 
-export default function FacilityList({ facilities, onFacilitySelect, selectedFacilityId }: FacilityListProps) {
+export default function FacilityList({ facilities, onFacilitySelect, selectedFacilityId, filter, setFilter }: FacilityListProps) {
   return (
-    <div className="h-full">
+    <div className="h-full flex flex-col">
         <div className="p-4 border-b">
-            <h3 className="text-lg font-semibold">All Facilities ({facilities.length})</h3>
+            <h3 className="text-lg font-semibold mb-3">Facilities ({facilities.length})</h3>
+            <div className="flex flex-wrap gap-2">
+                {facilityTypes.map(type => (
+                    <Button 
+                        key={type}
+                        variant={filter === type ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={() => setFilter(type)}
+                        className="text-xs h-7"
+                    >
+                        {type}
+                    </Button>
+                ))}
+            </div>
         </div>
-        <ScrollArea className="h-full">
+        <ScrollArea className="flex-grow">
             <div className="p-2 space-y-2">
-                {facilities.map((facility) => (
+                {facilities.length > 0 ? facilities.map((facility) => (
                     <button
                         key={facility.id}
                         onClick={() => onFacilitySelect(facility)}
@@ -53,7 +72,11 @@ export default function FacilityList({ facilities, onFacilitySelect, selectedFac
                             </div>
                         </div>
                     </button>
-                ))}
+                )) : (
+                    <div className="p-4 text-center text-muted-foreground text-sm">
+                        No facilities found for this filter.
+                    </div>
+                )}
             </div>
         </ScrollArea>
     </div>
