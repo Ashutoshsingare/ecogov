@@ -13,6 +13,9 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { useAuth } from "@/firebase";
+import { initiateEmailSignIn } from "@/firebase/non-blocking-login";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -20,6 +23,7 @@ const formSchema = z.object({
 });
 
 export default function LoginForm() {
+    const auth = useAuth();
     const { toast } = useToast();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
@@ -35,27 +39,42 @@ export default function LoginForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setIsLoading(true);
-        // Simulate a call to a login function
-        console.log(values);
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        setIsLoading(false);
-        toast({
-            title: "Logged in!",
-            description: "Welcome back.",
-        });
-        router.push('/dashboard');
+        try {
+            initiateEmailSignIn(auth, values.email, values.password);
+            toast({
+                title: "Logged in!",
+                description: "Welcome back.",
+            });
+            router.push('/dashboard');
+        } catch (error: any) {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: error.message,
+            });
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     async function onGoogleLogin() {
         setIsGoogleLoading(true);
-        // Simulate a Google login
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        setIsGoogleLoading(false);
-        toast({
-            title: "Logged in with Google!",
-            description: "Welcome back.",
-        });
-        router.push('/dashboard');
+        try {
+            await signInWithPopup(auth, new GoogleAuthProvider());
+            toast({
+                title: "Logged in with Google!",
+                description: "Welcome back.",
+            });
+            router.push('/dashboard');
+        } catch (error: any) {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: error.message,
+            });
+        } finally {
+            setIsGoogleLoading(false);
+        }
     }
 
   return (

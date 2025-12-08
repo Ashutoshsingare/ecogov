@@ -13,6 +13,9 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { useAuth } from "@/firebase";
+import { initiateEmailSignUp } from "@/firebase/non-blocking-login";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -21,6 +24,7 @@ const formSchema = z.object({
 });
 
 export default function SignupForm() {
+    const auth = useAuth();
     const { toast } = useToast();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
@@ -37,27 +41,42 @@ export default function SignupForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setIsLoading(true);
-        // Simulate a call to a signup function
-        console.log(values);
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        setIsLoading(false);
-        toast({
-            title: "Account Created!",
-            description: "You've successfully signed up.",
-        });
-        router.push('/dashboard');
+        try {
+            initiateEmailSignUp(auth, values.email, values.password);
+            toast({
+                title: "Account Created!",
+                description: "You've successfully signed up.",
+            });
+            router.push('/dashboard');
+        } catch (error: any) {
+             toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: error.message,
+            });
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     async function onGoogleSignup() {
         setIsGoogleLoading(true);
-        // Simulate a Google signup
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        setIsGoogleLoading(false);
-        toast({
-            title: "Signed up with Google!",
-            description: "Welcome to EcoGov.",
-        });
-        router.push('/dashboard');
+        try {
+            await signInWithPopup(auth, new GoogleAuthProvider());
+            toast({
+                title: "Signed up with Google!",
+                description: "Welcome to EcoGov.",
+            });
+            router.push('/dashboard');
+        } catch (error: any) {
+             toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: error.message,
+            });
+        } finally {
+            setIsGoogleLoading(false);
+        }
     }
 
   return (
