@@ -41,22 +41,17 @@ export default function SignupForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setIsLoading(true);
-        try {
-            initiateEmailSignUp(auth, values.email, values.password);
-            toast({
-                title: "Account Created!",
-                description: "You've successfully signed up.",
-            });
-            router.push('/dashboard');
-        } catch (error: any) {
-             toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: error.message,
-            });
-        } finally {
-            setIsLoading(false);
-        }
+        // We are not awaiting the result here.
+        // The onAuthStateChanged listener in FirebaseProvider will handle the redirect.
+        initiateEmailSignUp(auth, values.email, values.password);
+
+        toast({
+            title: "Creating Account...",
+            description: "You will be redirected shortly.",
+        });
+
+        // Optimistic navigation.
+        setTimeout(() => router.push('/dashboard'), 1500);
     }
 
     async function onGoogleSignup() {
