@@ -230,6 +230,7 @@ export default function WasteReportForm() {
                 <div>
                   <Label htmlFor="photo" className="mb-2 block font-medium">Photo Evidence *</Label>
                   <label
+                    htmlFor="photo"
                     onDrop={handleDrop}
                     onDragOver={(e) => e.preventDefault()}
                     className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-muted/50 transition-colors"
