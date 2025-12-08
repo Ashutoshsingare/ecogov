@@ -41,8 +41,6 @@ export default function SignupForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setIsLoading(true);
-        // We are not awaiting the result here.
-        // The onAuthStateChanged listener in FirebaseProvider will handle the redirect.
         initiateEmailSignUp(auth, values.email, values.password);
 
         toast({
@@ -50,8 +48,13 @@ export default function SignupForm() {
             description: "You will be redirected shortly.",
         });
 
-        // Optimistic navigation.
-        setTimeout(() => router.push('/dashboard'), 1500);
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (user) {
+                router.push('/dashboard');
+                unsubscribe();
+            }
+            setIsLoading(false);
+        });
     }
 
     async function onGoogleSignup() {

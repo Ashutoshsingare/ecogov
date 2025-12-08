@@ -39,32 +39,29 @@ export default function LoginForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setIsLoading(true);
-        // We are not awaiting the result here.
-        // The onAuthStateChanged listener in FirebaseProvider will handle the redirect.
         initiateEmailSignIn(auth, values.email, values.password);
         
-        // Optimistically show success and navigate. Error handling will be managed globally
-        // or through the onAuthStateChanged listener's error state.
         toast({
             title: "Logging in...",
             description: "You will be redirected shortly.",
         });
 
-        // It's often better to let the auth state listener handle the redirect.
-        // But for a simpler UX, we can optimistically navigate.
-        // A more robust solution might wait for the user object to be available in a global state.
-        setTimeout(() => router.push('/dashboard'), 1500); 
-
-        // No need to setIsLoading(false) here if we redirect away,
-        // but it's good practice if there's a chance of staying on the page.
+        // The onAuthStateChanged listener will handle redirecting the user
+        // by updating the global state, which will hide the login form.
+        // We will navigate to the dashboard once auth state is confirmed.
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (user) {
+                router.push('/dashboard');
+                unsubscribe();
+            }
+            setIsLoading(false);
+        });
     }
 
     async function onGoogleLogin() {
         setIsGoogleLoading(true);
         try {
             await signInWithPopup(auth, new GoogleAuthProvider());
-            // onAuthStateChanged will trigger, and the provider will update the user state.
-            // Redirection can be handled in a component that observes the user state.
             toast({
                 title: "Logged in with Google!",
                 description: "Welcome back.",
