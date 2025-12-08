@@ -2,24 +2,27 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import Logo from '@/components/shared/Logo';
 import { mainNav } from '@/lib/data';
 import type { NavItem } from '@/lib/types';
-import { useUser, useAuth, initiateSignOut } from '@/firebase';
+import { useUser, useAuth } from '@/firebase';
+import { signOut } from 'firebase/auth';
 
 export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
+  const router = useRouter();
   const navItems = mainNav;
   
-  const handleLogout = () => {
-    initiateSignOut(auth);
+  const handleLogout = async () => {
+    await signOut(auth);
     setIsOpen(false);
+    router.push('/');
   }
 
   return (

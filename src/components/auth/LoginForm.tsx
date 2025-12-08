@@ -14,8 +14,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "@/firebase";
-import { initiateEmailSignIn } from "@/firebase/non-blocking-login";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -39,23 +38,23 @@ export default function LoginForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setIsLoading(true);
-        initiateEmailSignIn(auth, values.email, values.password);
-        
-        toast({
-            title: "Logging in...",
-            description: "You will be redirected shortly.",
-        });
-
-        // The onAuthStateChanged listener will handle redirecting the user
-        // by updating the global state, which will hide the login form.
-        // We will navigate to the dashboard once auth state is confirmed.
-        const unsubscribe = auth.onAuthStateChanged(user => {
-            if (user) {
-                router.push('/dashboard');
-                unsubscribe();
-            }
+        try {
+            await signInWithEmailAndPassword(auth, values.email, values.password);
+            toast({
+                title: "Logged in successfully!",
+                description: "Redirecting to your dashboard.",
+            });
+            router.push('/dashboard');
+            router.refresh();
+        } catch (error: any) {
+             toast({
+                variant: "destructive",
+                title: "Login Failed",
+                description: error.message,
+            });
+        } finally {
             setIsLoading(false);
-        });
+        }
     }
 
     async function onGoogleLogin() {
@@ -126,7 +125,7 @@ export default function LoginForm() {
                     </div>
                 </div>
                 <div className="grid grid-cols-1 gap-4 w-full">
-                    <Button variant="outline" onClick={onGoogleLogin} disabled={isGoogleLoading}>
+                    <Button variant="outline" type="button" onClick={onGoogleLogin} disabled={isGoogleLoading}>
                         {isGoogleLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Chrome className="mr-2 h-4 w-4" />}
                         Google
                     </Button>

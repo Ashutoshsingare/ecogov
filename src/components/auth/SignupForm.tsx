@@ -14,8 +14,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "@/firebase";
-import { initiateEmailSignUp } from "@/firebase/non-blocking-login";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -41,20 +40,25 @@ export default function SignupForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setIsLoading(true);
-        initiateEmailSignUp(auth, values.email, values.password);
-
-        toast({
-            title: "Creating Account...",
-            description: "You will be redirected shortly.",
-        });
-
-        const unsubscribe = auth.onAuthStateChanged(user => {
-            if (user) {
-                router.push('/dashboard');
-                unsubscribe();
-            }
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+            await updateProfile(userCredential.user, { displayName: values.name });
+            
+            toast({
+                title: "Account Created!",
+                description: "Welcome to EcoGov. Redirecting to your dashboard.",
+            });
+            router.push('/dashboard');
+            router.refresh(); // Forces a refresh to update header state
+        } catch (error: any) {
+            toast({
+                variant: "destructive",
+                title: "Sign Up Failed",
+                description: error.message,
+            });
+        } finally {
             setIsLoading(false);
-        });
+        }
     }
 
     async function onGoogleSignup() {
@@ -133,7 +137,7 @@ export default function SignupForm() {
                     </div>
                 </div>
                 <div className="grid grid-cols-1 gap-4 w-full">
-                    <Button variant="outline" onClick={onGoogleSignup} disabled={isGoogleLoading}>
+                    <Button variant="outline" type="button" onClick={onGoogleSignup} disabled={isGoogleLoading}>
                         {isGoogleLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Chrome className="mr-2 h-4 w-4" />}
                         Google
                     </Button>

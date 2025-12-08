@@ -9,11 +9,13 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useState, useRef, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
-import { useUser } from "@/firebase";
+import { useUser, useAuth } from "@/firebase";
 import { Skeleton } from "../ui/skeleton";
+import { updateProfile } from "firebase/auth";
 
 export default function ProfileDetails() {
     const { user, isUserLoading } = useUser();
+    const auth = useAuth();
     const profileImage = PlaceHolderImages.find(p => p.id === 'profile-avatar');
     
     const [progress, setProgress] = useState(66);
@@ -27,36 +29,48 @@ export default function ProfileDetails() {
 
     useEffect(() => {
         if (user) {
-            setName(user.displayName || "Anonymous User");
+            setName(user.displayName || "");
             setAvatar(user.photoURL || profileImage?.imageUrl);
         }
     }, [user, profileImage]);
 
     const handleSave = async () => {
+        if (!auth.currentUser) {
+            toast({ variant: "destructive", title: "You must be logged in."});
+            return;
+        };
+
         setIsSaving(true);
-        // In a real app, you'd update the user's profile in Firebase Auth and/or Firestore
-        // For example: await updateProfile(auth.currentUser, { displayName: name });
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        setIsSaving(false);
-        toast({
-            title: "Profile updated!",
-            description: "Your changes have been saved successfully.",
-        });
+        try {
+            await updateProfile(auth.currentUser, { displayName: name });
+            toast({
+                title: "Profile updated!",
+                description: "Your changes have been saved successfully.",
+            });
+        } catch (error: any) {
+            toast({ variant: "destructive", title: "Error", description: error.message });
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (file) {
+        if (file && auth.currentUser) {
             setIsUploading(true);
             const reader = new FileReader();
             reader.onloadend = async () => {
-                // In a real app, you would upload this to Firebase Storage and update the user's photoURL
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                setAvatar(reader.result as string);
-                setIsUploading(false);
-                toast({
-                    title: "Avatar updated!",
-                });
+                // In a real app, you would upload this to Firebase Storage and get a URL
+                const photoURL = reader.result as string; 
+                try {
+                    await updateProfile(auth.currentUser!, { photoURL: photoURL });
+                    setAvatar(photoURL);
+                    toast({ title: "Avatar updated!" });
+                } catch (error: any) {
+                     toast({ variant: "destructive", title: "Upload Failed", description: error.message });
+                } finally {
+                    setIsUploading(false);
+                }
             };
             reader.readAsDataURL(file);
         }
@@ -98,6 +112,19 @@ export default function ProfileDetails() {
         )
     }
 
+    if (!user) {
+        return (
+             <Card>
+                <CardHeader>
+                    <CardTitle>My Profile</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p>Please log in to view your profile.</p>
+                </CardContent>
+            </Card>
+        )
+    }
+
     return (
         <Card>
             <CardHeader>
@@ -109,7 +136,7 @@ export default function ProfileDetails() {
                     <div className="relative">
                         <Avatar className="h-20 w-20">
                             <AvatarImage src={avatar} alt="User avatar" data-ai-hint={profileImage?.imageHint} />
-                            <AvatarFallback>{name.charAt(0)}</AvatarFallback>
+                            <AvatarFallback>{name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}</AvatarFallback>
                         </Avatar>
                         {isUploading && (
                             <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full">
@@ -118,7 +145,7 @@ export default function ProfileDetails() {
                         )}
                     </div>
                     <div className="flex-grow">
-                        <h3 className="text-xl font-semibold">{name}</h3>
+                        <h3 className="text-xl font-semibold">{name || 'Anonymous User'}</h3>
                         <p className="text-muted-foreground">Joined July 2024</p>
                     </div>
                      <Button variant="outline" onClick={() => fileInputRef.current?.click()} disabled={isUploading}>

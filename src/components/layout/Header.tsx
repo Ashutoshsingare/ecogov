@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Logo from "@/components/shared/Logo";
 import { mainNav } from "@/lib/data";
 import type { NavItem } from "@/lib/types";
@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import MobileNav from "./MobileNav";
-import { useUser, useAuth, initiateSignOut } from "@/firebase";
+import { useUser, useAuth } from "@/firebase";
+import { signOut } from "firebase/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -25,12 +26,14 @@ import { Skeleton } from "../ui/skeleton";
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const navItems = mainNav;
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
 
-  const handleLogout = () => {
-    initiateSignOut(auth);
+  const handleLogout = async () => {
+    await signOut(auth);
+    router.push('/');
   }
 
   return (
@@ -64,7 +67,7 @@ export default function Header() {
                   <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                     <Avatar className="h-9 w-9">
                       <AvatarImage src={user.photoURL || undefined} alt={user.displayName || 'User'} />
-                      <AvatarFallback>{user.email?.charAt(0).toUpperCase()}</AvatarFallback>
+                      <AvatarFallback>{user.displayName?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}</AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
