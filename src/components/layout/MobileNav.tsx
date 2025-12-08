@@ -9,11 +9,18 @@ import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/s
 import Logo from '@/components/shared/Logo';
 import { mainNav } from '@/lib/data';
 import type { NavItem } from '@/lib/types';
+import { useUser, useAuth, initiateSignOut } from '@/firebase';
 
 export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
+  const { user, isUserLoading } = useUser();
+  const auth = useAuth();
   const navItems = mainNav;
+  
+  const handleLogout = () => {
+    initiateSignOut(auth);
+    setIsOpen(false);
+  }
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -24,7 +31,7 @@ export default function MobileNav() {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-[300px] sm:w-[400px]">
-        <div className="p-4">
+        <div className="p-4 flex flex-col h-full">
           <div className="mb-8 flex items-center justify-between">
             <Logo />
             <SheetClose asChild>
@@ -46,13 +53,29 @@ export default function MobileNav() {
               </Link>
             ))}
           </nav>
-          <div className="mt-8 flex flex-col gap-4">
-             <Link href="/login" passHref>
-                <Button variant="outline" className="w-full" onClick={() => setIsOpen(false)}>Login</Button>
-            </Link>
-            <Link href="/signup" passHref>
-                <Button className="w-full" onClick={() => setIsOpen(false)}>Sign Up</Button>
-            </Link>
+          <div className="mt-auto pt-8 flex flex-col gap-4">
+            {isUserLoading ? (
+              <div className="space-y-2">
+                <div className="h-10 w-full rounded-md bg-muted animate-pulse" />
+                <div className="h-10 w-full rounded-md bg-muted animate-pulse" />
+              </div>
+            ) : user ? (
+              <>
+                 <Link href="/profile" passHref>
+                    <Button variant="outline" className="w-full" onClick={() => setIsOpen(false)}>Profile</Button>
+                </Link>
+                <Button className="w-full" onClick={handleLogout}>Log Out</Button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" passHref>
+                    <Button variant="outline" className="w-full" onClick={() => setIsOpen(false)}>Login</Button>
+                </Link>
+                <Link href="/signup" passHref>
+                    <Button className="w-full" onClick={() => setIsOpen(false)}>Sign Up</Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </SheetContent>
