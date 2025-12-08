@@ -1,6 +1,3 @@
-import TrainingCard from "@/components/training/TrainingCard";
-import Quiz from "@/components/training/Quiz";
-import { trainingModules } from "@/lib/data";
 import { AnimatedWrapper } from "@/components/shared/AnimatedWrapper";
 import TrainingClient from "@/components/training/TrainingClient";
 

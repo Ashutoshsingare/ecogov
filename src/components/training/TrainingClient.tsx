@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { trainingModules as initialModules } from "@/lib/data";
 import TrainingCard from "@/components/training/TrainingCard";
-import Quiz from "@/components/training/Quiz";
+import TrainingModal from "@/components/training/TrainingModal";
 import { AnimatedWrapper } from "@/components/shared/AnimatedWrapper";
 import type { TrainingModule } from "@/lib/types";
 
 export default function TrainingClient() {
   const [modules, setModules] = useState<TrainingModule[]>(initialModules);
   const [completedModules, setCompletedModules] = useState<Set<string>>(new Set());
+  const [activeModule, setActiveModule] = useState<TrainingModule | null>(null);
 
   const handleModuleComplete = (moduleId: string) => {
     setCompletedModules(prev => new Set(prev).add(moduleId));
@@ -22,17 +23,22 @@ export default function TrainingClient() {
       }
       return prevModules;
     });
+    setActiveModule(null); // Close the modal
   };
 
-  // This is a placeholder for a proper "start module" action
   const handleStartModule = (moduleId: string) => {
-    console.log("Starting module", moduleId);
-    // In a real app, you'd navigate to a module-specific page.
-    // For this simulation, we'll just complete it after a delay.
-    setTimeout(() => {
-        handleModuleComplete(moduleId);
-    }, 2000);
-  }
+    const moduleToStart = modules.find(m => m.id === moduleId);
+    if (moduleToStart) {
+      setActiveModule(moduleToStart);
+    }
+  };
+
+  const handleModalClose = () => {
+    if (activeModule) {
+      // For simulation, we complete the module when the modal is closed.
+      handleModuleComplete(activeModule.id);
+    }
+  };
 
   return (
     <>
@@ -51,12 +57,13 @@ export default function TrainingClient() {
         </div>
       </section>
 
-      <section id="quiz" className="mb-24">
-        <AnimatedWrapper>
-            <h2 className="text-3xl font-bold mb-8 text-center">Test Your Knowledge</h2>
-            <Quiz />
-        </AnimatedWrapper>
-      </section>
+      {activeModule && (
+        <TrainingModal
+          module={activeModule}
+          isOpen={!!activeModule}
+          onClose={handleModalClose}
+        />
+      )}
     </>
   );
 }

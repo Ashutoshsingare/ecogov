@@ -34,6 +34,7 @@ export type TrainingModule = {
   duration: string;
   imageUrl: string;
   imageHint: string;
+  videoUrl: string;
   isLocked: boolean;
 };
 

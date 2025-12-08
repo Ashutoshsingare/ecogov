@@ -74,10 +74,10 @@ export const testimonials: Testimonial[] = [
 ];
 
 export const trainingModules: TrainingModule[] = [
-  { id: '1', title: 'Waste Segregation 101', description: 'Master the art of separating wet, dry, and hazardous waste.', duration: '45 mins', imageUrl: PlaceHolderImages.find(p => p.id === 'training-segregation')?.imageUrl || 'https://picsum.photos/seed/segregation/400/300', imageHint: 'recycling bins', isLocked: false },
-  { id: '2', title: 'Home Composting', description: 'Turn your kitchen scraps into valuable compost for your plants.', duration: '60 mins', imageUrl: PlaceHolderImages.find(p => p.id === 'training-composting')?.imageUrl || 'https://picsum.photos/seed/composting/400/300', imageHint: 'garden compost', isLocked: true },
-  { id: '3', title: 'E-Waste Management', description: 'Learn how to safely dispose of electronic waste.', duration: '30 mins', imageUrl: PlaceHolderImages.find(p => p.id === 'training-ewaste')?.imageUrl || 'https://picsum.photos/seed/ewaste/400/300', imageHint: 'electronic circuit', isLocked: true },
-  { id: '4', title: 'Plastic-Free Living', description: 'Tips and tricks to reduce plastic consumption in daily life.', duration: '45 mins', imageUrl: 'https://picsum.photos/seed/plasticfree/400/300', imageHint: 'reusable bags', isLocked: true },
+  { id: '1', title: 'Waste Segregation 101', description: 'Master the art of separating wet, dry, and hazardous waste.', duration: '45 mins', imageUrl: PlaceHolderImages.find(p => p.id === 'training-segregation')?.imageUrl || 'https://picsum.photos/seed/segregation/400/300', imageHint: 'recycling bins', videoUrl: 'https://www.youtube.com/embed/LNQUEg9T3D4', isLocked: false },
+  { id: '2', title: 'Home Composting', description: 'Turn your kitchen scraps into valuable compost for your plants.', duration: '60 mins', imageUrl: PlaceHolderImages.find(p => p.id === 'training-composting')?.imageUrl || 'https://picsum.photos/seed/composting/400/300', imageHint: 'garden compost', videoUrl: 'https://www.youtube.com/embed/C4Xklp_Y2sA', isLocked: true },
+  { id: '3', title: 'E-Waste Management', description: 'Learn how to safely dispose of electronic waste.', duration: '30 mins', imageUrl: PlaceHolderImages.find(p => p.id === 'training-ewaste')?.imageUrl || 'https://picsum.photos/seed/ewaste/400/300', imageHint: 'electronic circuit', videoUrl: 'https://www.youtube.com/embed/nSg4Da_nSms', isLocked: true },
+  { id: '4', title: 'Plastic-Free Living', description: 'Tips and tricks to reduce plastic consumption in daily life.', duration: '45 mins', imageUrl: 'https://picsum.photos/seed/plasticfree/400/300', imageHint: 'reusable bags', videoUrl: 'https://www.youtube.com/embed/O8qS_sLvoI0', isLocked: true },
 ];
 
 export const quizQuestions: QuizQuestion[] = [
