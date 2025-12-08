@@ -1,0 +1,444 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user of the EcoGov platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user."
+        },
+        "username": {
+          "type": "string",
+          "description": "The username of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the user.",
+          "format": "email"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The user's first name."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The user's last name."
+        },
+        "profilePicture": {
+          "type": "string",
+          "description": "URL to the user's profile picture.",
+          "format": "uri"
+        },
+        "trainingStatus": {
+          "type": "string",
+          "description": "The current training status of the user, for example: not-started, in-progress, complete",
+          "format": "string"
+        },
+        "badges": {
+          "type": "array",
+          "description": "Array of badge IDs the user has earned.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "username",
+        "email"
+      ]
+    },
+    "Badge": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Badge",
+      "type": "object",
+      "description": "Represents a badge earned by a user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the badge."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the badge."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the badge."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL to the badge image.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "WasteReport": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "WasteReport",
+      "type": "object",
+      "description": "Represents a waste report submitted by a user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the waste report."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N WasteReport)"
+        },
+        "imageURL": {
+          "type": "string",
+          "description": "URL to the image of the reported waste.",
+          "format": "uri"
+        },
+        "latitude": {
+          "type": "number",
+          "description": "Latitude of the reported waste location."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Longitude of the reported waste location."
+        },
+        "reportDate": {
+          "type": "string",
+          "description": "Date and time when the waste was reported.",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string",
+          "description": "Additional details about the reported waste."
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the report, e.g., 'pending', 'in progress', 'resolved'."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "imageURL",
+        "latitude",
+        "longitude",
+        "reportDate"
+      ]
+    },
+    "TrainingModule": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TrainingModule",
+      "type": "object",
+      "description": "Represents a training module available to users.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the training module."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the training module."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the training module."
+        },
+        "videoUrl": {
+          "type": "string",
+          "description": "URL to the training module video.",
+          "format": "uri"
+        },
+        "quizId": {
+          "type": "string",
+          "description": "Reference to Quiz. (Relationship: TrainingModule 1:1 Quiz)"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "videoUrl",
+        "quizId"
+      ]
+    },
+    "Quiz": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Quiz",
+      "type": "object",
+      "description": "Represents a quiz associated with a training module.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the quiz."
+        },
+        "questions": {
+          "type": "array",
+          "description": "Array of question IDs in the quiz.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "Question": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Question",
+      "type": "object",
+      "description": "Represents a question in a quiz.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the question."
+        },
+        "text": {
+          "type": "string",
+          "description": "Text of the question."
+        },
+        "options": {
+          "type": "array",
+          "description": "Array of possible answers to the question.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "correctAnswer": {
+          "type": "string",
+          "description": "The correct answer to the question."
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "options",
+        "correctAnswer"
+      ]
+    },
+    "Product": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Product",
+      "type": "object",
+      "description": "Represents a product in the e-commerce utility shop.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the product."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the product."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the product."
+        },
+        "price": {
+          "type": "number",
+          "description": "Price of the product."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL to the product image.",
+          "format": "uri"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of the product."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "price",
+        "imageUrl",
+        "category"
+      ]
+    },
+    "Facility": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Facility",
+      "type": "object",
+      "description": "Represents a waste management facility.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the facility."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the facility."
+        },
+        "latitude": {
+          "type": "number",
+          "description": "Latitude of the facility location."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Longitude of the facility location."
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of facility (e.g., 'Biomethanation plant', 'Recycling center', 'WTE plant')."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the facility."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "latitude",
+        "longitude",
+        "type"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profiles. Only the user themselves can read/write their own profile data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/badges/{badgeId}",
+        "definition": {
+          "entityName": "Badge",
+          "schema": {
+            "$ref": "#/backend/entities/Badge"
+          },
+          "description": "Stores information about available badges. Publicly readable.",
+          "params": [
+            {
+              "name": "badgeId",
+              "description": "The unique identifier for the badge."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/waste_reports/{wasteReportId}",
+        "definition": {
+          "entityName": "WasteReport",
+          "schema": {
+            "$ref": "#/backend/entities/WasteReport"
+          },
+          "description": "Stores waste reports. Anyone can create a waste report. Reports are associated with a `userId` for ownership. Data includes location, image, and status.",
+          "params": [
+            {
+              "name": "wasteReportId",
+              "description": "The unique identifier for the waste report."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/training_modules/{trainingModuleId}",
+        "definition": {
+          "entityName": "TrainingModule",
+          "schema": {
+            "$ref": "#/backend/entities/TrainingModule"
+          },
+          "description": "Stores training modules. Publicly readable.",
+          "params": [
+            {
+              "name": "trainingModuleId",
+              "description": "The unique identifier for the training module."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/quizzes/{quizId}",
+        "definition": {
+          "entityName": "Quiz",
+          "schema": {
+            "$ref": "#/backend/entities/Quiz"
+          },
+          "description": "Stores quizzes associated with training modules. Publicly readable.",
+          "params": [
+            {
+              "name": "quizId",
+              "description": "The unique identifier for the quiz."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/questions/{questionId}",
+        "definition": {
+          "entityName": "Question",
+          "schema": {
+            "$ref": "#/backend/entities/Question"
+          },
+          "description": "Stores individual questions for quizzes. Publicly readable.",
+          "params": [
+            {
+              "name": "questionId",
+              "description": "The unique identifier for the question."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/products/{productId}",
+        "definition": {
+          "entityName": "Product",
+          "schema": {
+            "$ref": "#/backend/entities/Product"
+          },
+          "description": "Stores products available in the e-commerce utility shop. Publicly readable.",
+          "params": [
+            {
+              "name": "productId",
+              "description": "The unique identifier for the product."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/facilities/{facilityId}",
+        "definition": {
+          "entityName": "Facility",
+          "schema": {
+            "$ref": "#/backend/entities/Facility"
+          },
+          "description": "Stores information about waste management facilities. Publicly readable.",
+          "params": [
+            {
+              "name": "facilityId",
+              "description": "The unique identifier for the facility."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to support the EcoGov platform's features, including user management, training modules, waste reporting, e-commerce, and facility location. The structure emphasizes authorization independence by denormalizing user-related data and leveraging path-based ownership for private user data.  The design uses structural segregation for homogeneous security posture. The key collections and subcollections are as follows:\n\n*   `/users/{userId}`: Stores user profiles.  Authorization: Only the user themselves can read/write their own profile data. This supports QAP for private user data.\n*   `/badges/{badgeId}`: Stores information about available badges.  Authorization: Publicly readable.\n*   `/waste_reports/{wasteReportId}`: Stores waste reports.  Authorization: Anyone can create a waste report. Reports are associated with a `userId` for ownership. Data includes location, image, and status.\n*   `/training_modules/{trainingModuleId}`: Stores training modules. Authorization: Publicly readable.\n*   `/quizzes/{quizId}`: Stores quizzes associated with training modules. Authorization: Publicly readable.\n*   `/questions/{questionId}`: Stores individual questions for quizzes. Authorization: Publicly readable.\n*   `/products/{productId}`: Stores products available in the e-commerce utility shop. Authorization: Publicly readable.\n*   `/facilities/{facilityId}`: Stores information about waste management facilities. Authorization: Publicly readable.\n\nAuthorization Independence is achieved through path-based ownership (e.g., `/users/{userId}`) and avoids `get()` calls in security rules.  Each entity is designed to be self-contained regarding authorization. QAPs are supported via structural segregation; public data (e.g., `/products`) is separated from private user data (e.g., `/users/{userId}`)."
+  }
+}

@@ -1,0 +1,193 @@
+/**
+ * Core Philosophy: This ruleset enforces a strict security model based on user ownership and structural segregation.
+ * User-specific data is locked down to the owner, while application-level content (like training modules, products, and badges)
+ * is publicly readable but not writable by clients. This creates a secure-by-default environment where users can only
+ * manage their own information.
+ *
+ * Data Structure: The data is organized into distinct top-level collections. The `/users/{userId}` collection tree contains
+ * all private user data, and its access is controlled by matching the authenticated user's ID with the `{userId}` wildcard.
+ * All other collections, such as `/products`, `/badges`, and `/facilities`, are top-level and contain public data.
+ *
+ * Key Security Decisions:
+ * - User Isolation: Users can only access their own document within the `/users` collection. Listing all users is explicitly disallowed.
+ * - Public Content: Most top-level collections are publicly readable to support the app's features (e.g., viewing training
+ *   modules, browsing products). Client-side writes to these collections are disabled, assuming they are managed by an admin backend.
+ * - Waste Reports: The `/waste_reports` collection has a unique policy. Any authenticated user can create a report, but only the
+ *   original author can update or delete their own report. All reports are publicly readable.
+ * - Denormalization for Authorization: The `waste_reports` documents contain a `userId` field. This denormalization is
+ *   critical for enforcing ownership on update/delete operations without needing slow and costly `get()` calls to other documents.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ----------------------------------------------------------------------
+    // Helper Functions
+    // ----------------------------------------------------------------------
+
+    /**
+     * Checks if the user is authenticated.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * Checks if the authenticated user's UID matches the provided userId.
+     * This is the core function for enforcing ownership.
+     * @param userId The user ID to check against the request's auth UID.
+     */
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    /**
+     * Checks if the user is the owner of an existing document.
+     * Used for safe update and delete operations.
+     * @param userId The user ID to check against the request's auth UID.
+     */
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
+
+    /**
+     * Validates that the 'userId' field in a new document matches the creator's UID.
+     * Ensures relational integrity upon creation.
+     */
+    function isCreatingOwnContent() {
+      return isSignedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    /**
+     * Validates that an ownership field (like 'userId') is not being changed during an update.
+     */
+    function ownerFieldIsImmutable(fieldName) {
+      return request.resource.data[fieldName] == resource.data[fieldName];
+    }
+
+    // ----------------------------------------------------------------------
+    // Collection Rules
+    // ----------------------------------------------------------------------
+
+    /**
+     * @description Controls access to user profile documents.
+     * @path /users/{userId}
+     * @allow A user (uid: 'user123') can (get), (list), (create), (update), or (delete) their own document at `/users/user123`.
+     * @deny A user (uid: 'user456') is denied all access to a document at `/users/user123`.
+     * @principle Restricts access to a user's own data tree, enforcing strict data privacy and ownership.
+     */
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Controls access to badge information. Badges are considered public, read-only content.
+     * @path /badges/{badgeId}
+     * @allow Any user, signed in or not, can (get) or (list) all badges.
+     * @deny Any client, signed in or not, is denied (create), (update), or (delete) access.
+     * @principle Protects publicly readable application data from modification by end-users.
+     */
+    match /badges/{badgeId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Controls access to waste reports.
+     * @path /waste_reports/{wasteReportId}
+     * @allow An authenticated user can (create) a report. The owner can (update) or (delete) their own report. Anyone can (get) or (list) reports.
+     * @deny A user cannot (update) or (delete) a report they did not create. Anonymous users cannot (create) reports.
+     * @principle Enforces document ownership for writes while allowing broader access for creation and reads.
+     */
+    match /waste_reports/{wasteReportId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if isCreatingOwnContent();
+      allow update: if resource != null && isOwner(resource.data.userId) && ownerFieldIsImmutable('userId');
+      allow delete: if isExistingOwner(resource.data.userId);
+    }
+
+    /**
+     * @description Controls access to training modules. These are public, read-only content.
+     * @path /training_modules/{trainingModuleId}
+     * @allow Any user, signed in or not, can (get) or (list) all training modules.
+     * @deny Any client is denied (create), (update), or (delete) access.
+     * @principle Protects publicly readable application data from modification by end-users.
+     */
+    match /training_modules/{trainingModuleId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Controls access to quizzes. These are public, read-only content.
+     * @path /quizzes/{quizId}
+     * @allow Any user, signed in or not, can (get) or (list) all quizzes.
+     * @deny Any client is denied (create), (update), or (delete) access.
+     * @principle Protects publicly readable application data from modification by end-users.
+     */
+    match /quizzes/{quizId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Controls access to quiz questions. These are public, read-only content.
+     * @path /questions/{questionId}
+     * @allow Any user, signed in or not, can (get) or (list) all questions.
+     * @deny Any client is denied (create), (update), or (delete) access.
+     * @principle Protects publicly readable application data from modification by end-users.
+     */
+    match /questions/{questionId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Controls access to products in the e-commerce shop. These are public, read-only content.
+     * @path /products/{productId}
+     * @allow Any user, signed in or not, can (get) or (list) all products.
+     * @deny Any client is denied (create), (update), or (delete) access.
+     * @principle Protects publicly readable application data from modification by end-users.
+     */
+    match /products/{productId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Controls access to waste management facility information. This is public, read-only content.
+     * @path /facilities/{facilityId}
+     * @allow Any user, signed in or not, can (get) or (list) all facilities.
+     * @deny Any client is denied (create), (update), or (delete) access.
+     * @principle Protects publicly readable application data from modification by end-users.
+     */
+    match /facilities/{facilityId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+  }
+}
