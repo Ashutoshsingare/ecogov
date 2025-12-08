@@ -45,7 +45,7 @@ export default function RewardsClient() {
         <AnimatedWrapper>
             <h2 className="text-3xl font-bold mb-8 text-center">Your Certification</h2>
             <Certificate 
-                userName="John Doe" 
+                userName="Your Name" 
                 courseName="Waste Management Fundamentals" 
                 completionDate={new Date().toLocaleDateString()} 
                 isUnlocked={allModulesCompleted} 

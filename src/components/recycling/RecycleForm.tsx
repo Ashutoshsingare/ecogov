@@ -158,7 +158,7 @@ export default function RecycleForm() {
                         <FormItem>
                           <Label htmlFor="name" className="font-medium">Your Name *</Label>
                           <FormControl>
-                            <Input id="name" {...field} placeholder="e.g. John Doe" />
+                            <Input id="name" {...field} placeholder="e.g. Your Name" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

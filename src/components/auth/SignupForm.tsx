@@ -87,7 +87,7 @@ export default function SignupForm() {
                 <FormItem>
                   <Label htmlFor="name">Full Name</Label>
                   <FormControl>
-                    <Input id="name" placeholder="John Doe" {...field} />
+                    <Input id="name" placeholder="Your Name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

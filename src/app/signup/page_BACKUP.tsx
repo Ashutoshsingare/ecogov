@@ -22,7 +22,7 @@ export default function SignupPage() {
           <CardContent className="space-y-4">
              <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
-              <Input id="name" type="text" placeholder="John Doe" required />
+              <Input id="name" type="text" placeholder="Your Name" required />
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
