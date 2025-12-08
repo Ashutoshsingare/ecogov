@@ -6,24 +6,36 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import { useUser } from "@/firebase";
+import { Skeleton } from "../ui/skeleton";
 
 export default function ProfileDetails() {
+    const { user, isUserLoading } = useUser();
     const profileImage = PlaceHolderImages.find(p => p.id === 'profile-avatar');
+    
     const [progress, setProgress] = useState(66);
-    const [name, setName] = useState("John Doe");
-    const [email, setEmail] = useState("john.doe@example.com");
+    const [name, setName] = useState("");
     const [avatar, setAvatar] = useState(profileImage?.imageUrl);
+    
     const [isSaving, setIsSaving] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const { toast } = useToast();
 
+    useEffect(() => {
+        if (user) {
+            setName(user.displayName || "Anonymous User");
+            setAvatar(user.photoURL || profileImage?.imageUrl);
+        }
+    }, [user, profileImage]);
+
     const handleSave = async () => {
         setIsSaving(true);
-        // Simulate API call
+        // In a real app, you'd update the user's profile in Firebase Auth and/or Firestore
+        // For example: await updateProfile(auth.currentUser, { displayName: name });
         await new Promise(resolve => setTimeout(resolve, 1000));
         setIsSaving(false);
         toast({
@@ -38,7 +50,7 @@ export default function ProfileDetails() {
             setIsUploading(true);
             const reader = new FileReader();
             reader.onloadend = async () => {
-                // Simulate upload
+                // In a real app, you would upload this to Firebase Storage and update the user's photoURL
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 setAvatar(reader.result as string);
                 setIsUploading(false);
@@ -49,6 +61,42 @@ export default function ProfileDetails() {
             reader.readAsDataURL(file);
         }
     };
+
+    if (isUserLoading) {
+        return (
+            <Card>
+                <CardHeader>
+                    <CardTitle>My Profile</CardTitle>
+                    <CardDescription>View and edit your personal information.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="flex items-center gap-6">
+                        <Skeleton className="h-20 w-20 rounded-full" />
+                        <div className="flex-grow space-y-2">
+                           <Skeleton className="h-6 w-1/2" />
+                           <Skeleton className="h-4 w-1/3" />
+                        </div>
+                         <Skeleton className="h-10 w-24" />
+                    </div>
+                     <div className="space-y-2">
+                        <Skeleton className="h-4 w-20" />
+                        <Skeleton className="h-10 w-full" />
+                    </div>
+                    <div className="space-y-2">
+                         <Skeleton className="h-4 w-20" />
+                        <Skeleton className="h-10 w-full" />
+                    </div>
+                    <div className="space-y-2">
+                        <Skeleton className="h-4 w-32" />
+                        <Skeleton className="h-4 w-full" />
+                    </div>
+                </CardContent>
+                <CardFooter>
+                     <Skeleton className="h-10 w-32" />
+                </CardFooter>
+            </Card>
+        )
+    }
 
     return (
         <Card>
@@ -61,7 +109,7 @@ export default function ProfileDetails() {
                     <div className="relative">
                         <Avatar className="h-20 w-20">
                             <AvatarImage src={avatar} alt="User avatar" data-ai-hint={profileImage?.imageHint} />
-                            <AvatarFallback>JD</AvatarFallback>
+                            <AvatarFallback>{name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         {isUploading && (
                             <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full">
@@ -84,7 +132,7 @@ export default function ProfileDetails() {
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" value={email} disabled />
+                    <Input id="email" type="email" value={user?.email || ''} disabled />
                 </div>
                 <div className="space-y-2">
                     <Label>Training Progress</Label>
